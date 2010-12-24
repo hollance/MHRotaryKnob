@@ -13,6 +13,8 @@
 	rotaryKnob.maximumValue = slider.maximumValue;
 	rotaryKnob.minimumValue = slider.minimumValue;
 	rotaryKnob.value = slider.value;
+	rotaryKnob.defaultValue = rotaryKnob.value;
+	rotaryKnob.resetsToDefault = YES;
 	rotaryKnob.backgroundColor = [UIColor clearColor];
 	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob.png"] forState:UIControlStateNormal];
 	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Highlighted.png"] forState:UIControlStateHighlighted];

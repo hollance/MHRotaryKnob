@@ -15,3 +15,9 @@ method to do custom drawing.
 - (void)valueDidChangeFrom:(float)oldValue to:(float)newValue animated:(BOOL)animated
 
 This control probably works best on an iPad.
+
+Needs QuartzCore framework
+
+
+Double-tap resets the control to its default value (typically either the center
+or the minimum). You can disable this.

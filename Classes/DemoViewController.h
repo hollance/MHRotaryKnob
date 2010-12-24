@@ -17,4 +17,3 @@
 - (IBAction)goToMaximum;
 
 @end
-

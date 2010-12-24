@@ -13,7 +13,8 @@
 
 @implementation MHRotaryKnob
 
-@synthesize maximumValue, minimumValue, value, continuous;
+@synthesize maximumValue, minimumValue, value, continuous, defaultValue,
+            resetsToDefault;
 
 - (float)angleForValue:(float)theValue
 {
@@ -114,9 +115,10 @@
 {
 	minimumValue = 0.0f;
 	maximumValue = 1.0f;
-	value = 0.5f;
+	value = defaultValue = 0.5f;
 	angle = 0.0f;
 	continuous = YES;
+	resetsToDefault = YES;
 
 	backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:backgroundImageView];
@@ -272,6 +274,12 @@
 
 - (BOOL)handleTouch:(UITouch*)touch
 {
+	if (touch.tapCount > 1 && resetsToDefault)
+	{
+		[self setValue:defaultValue animated:YES];
+		return NO;
+	}
+
 	CGPoint point = [touch locationInView:self];
 
 	if ([self squaredDistanceToCenter:point] < MIN_DISTANCE_SQUARED)
@@ -292,7 +300,7 @@
 
 	// Note that the above is equivalent to:
 	//self.value += [self valueForAngle:newAngle] - [self valueForAngle:angle];
-	
+
 	return YES;
 }
 
