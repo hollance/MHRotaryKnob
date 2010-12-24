@@ -10,13 +10,13 @@
 {
 	[super viewDidLoad];
 
-	//rotaryKnob.backgroundColor = [UIColor clearColor];
-	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob.png"] forState:UIControlStateNormal];
-	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Highlighted.png"] forState:UIControlStateHighlighted];
-	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Disabled.png"] forState:UIControlStateDisabled];
 	rotaryKnob.maximumValue = slider.maximumValue;
 	rotaryKnob.minimumValue = slider.minimumValue;
 	rotaryKnob.value = slider.value;
+	rotaryKnob.backgroundColor = [UIColor clearColor];
+	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob.png"] forState:UIControlStateNormal];
+	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Highlighted.png"] forState:UIControlStateHighlighted];
+	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Disabled.png"] forState:UIControlStateDisabled];
 	[rotaryKnob addTarget:self action:@selector(rotaryKnobDidChange) forControlEvents:UIControlEventValueChanged];
 }
 

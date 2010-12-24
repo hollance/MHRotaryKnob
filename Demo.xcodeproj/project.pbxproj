@@ -19,6 +19,7 @@
 		7B8A753712C4ABB600591C8C /* Knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A753612C4ABB600591C8C /* Knob.png */; };
 		7B8A772312C4F51900591C8C /* Knob Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A772212C4F51900591C8C /* Knob Highlighted.png */; };
 		7B8A77AA12C5071D00591C8C /* Knob Disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A77A912C5071D00591C8C /* Knob Disabled.png */; };
+		7B8A77E012C517FC00591C8C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8A77DF12C517FC00591C8C /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		7B8A753612C4ABB600591C8C /* Knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Knob.png; sourceTree = "<group>"; };
 		7B8A772212C4F51900591C8C /* Knob Highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Highlighted.png"; sourceTree = "<group>"; };
 		7B8A77A912C5071D00591C8C /* Knob Disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Disabled.png"; sourceTree = "<group>"; };
+		7B8A77DF12C517FC00591C8C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -50,6 +52,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				7B8A77E012C517FC00591C8C /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,9 +115,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
-				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				7B8A77DF12C517FC00591C8C /* QuartzCore.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

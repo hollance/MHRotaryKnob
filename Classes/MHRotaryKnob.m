@@ -1,4 +1,5 @@
 
+#import <QuartzCore/QuartzCore.h>
 #import "MHRotaryKnob.h"
 
 /*
@@ -48,11 +49,6 @@
 	return dx*dx + dy*dy;
 }
 
-- (void)setKnobRotationForValue:(float)theValue
-{
-	knobImageView.transform = CGAffineTransformMakeRotation([self angleForValue:theValue] * M_PI/180.0f);
-}
-
 - (void)showNormalKnobImage
 {
 	knobImageView.image = knobImageNormal;
@@ -74,11 +70,44 @@
 		knobImageView.image = knobImageNormal;
 }
 
-- (void)valueDidChange
+- (void)valueDidChangeFrom:(float)oldValue to:(float)newValue animated:(BOOL)animated
 {
-	// If you want to do custom drawing, then this is the place to do so.
+	// (If you want to do custom drawing, then this is the place to do so.)
 
-	[self setKnobRotationForValue:value];
+	float newAngle = [self angleForValue:newValue];
+
+	if (animated)
+	{
+		// We cannot simply use UIView's animations because they will take the
+		// shortest path, but we always want to go the long way around. So we
+		// set up a keyframe animation with three keyframes: the old angle, the
+		// midpoint between the old and new angles, and the new angle.
+
+		float oldAngle = [self angleForValue:oldValue];
+
+		CAKeyframeAnimation* animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+		animation.duration = 0.2f;
+
+		animation.values = [NSArray arrayWithObjects:
+			[NSNumber numberWithFloat:oldAngle * M_PI/180.0f],
+			[NSNumber numberWithFloat:(newAngle + oldAngle)/2.0f * M_PI/180.0f], 
+			[NSNumber numberWithFloat:newAngle * M_PI/180.0f], nil]; 
+
+		animation.keyTimes = [NSArray arrayWithObjects:
+			[NSNumber numberWithFloat:0.0f], 
+			[NSNumber numberWithFloat:0.5f], 
+			[NSNumber numberWithFloat:1.0f],
+			nil]; 
+
+		animation.timingFunctions = [NSArray arrayWithObjects:
+			[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+			[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
+			nil];
+
+		[knobImageView.layer addAnimation:animation forKey:nil];
+	}
+
+	knobImageView.transform = CGAffineTransformMakeRotation(newAngle * M_PI/180.0f);
 }
 
 - (void)setUp
@@ -95,7 +124,7 @@
 	knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:knobImageView];
 
-	[self valueDidChange];
+	[self valueDidChangeFrom:value to:value animated:NO];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -199,6 +228,8 @@
 
 - (void)setValue:(float)newValue animated:(BOOL)animated
 {
+	float oldValue = value;
+
 	if (newValue < minimumValue)
 		value = minimumValue;
 	else if (newValue > maximumValue)
@@ -206,20 +237,7 @@
 	else
 		value = newValue;
 
-	if (animated)
-	{
-		[UIView beginAnimations:nil context:nil];
-		[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-		[UIView setAnimationDuration:0.2f];
-		[UIView setAnimationBeginsFromCurrentState:YES];
-	}
-
-	[self valueDidChange];
-
-	if (animated)
-	{
-		[UIView commitAnimations];
-	}
+	[self valueDidChangeFrom:(float)oldValue to:(float)value animated:animated];
 }
 
 - (void)setEnabled:(BOOL)isEnabled

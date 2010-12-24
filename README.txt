@@ -11,3 +11,7 @@ If you want to do more fancy drawing, then you can easily modify the class. Its
 -valueDidChange method is invoked whenever the value changes. In the default
 implementation it simply rotates the knob image. You can change or override this
 method to do custom drawing.
+
+- (void)valueDidChangeFrom:(float)oldValue to:(float)newValue animated:(BOOL)animated
+
+This control probably works best on an iPad.
