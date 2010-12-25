@@ -42,7 +42,7 @@
  * resetsToDefault property.
  *
  * Because users will want to see what happens under their fingers, you are 
- * advised not to make the knob smaller than 120x120 pixels. Because of this, 
+ * advised not to make the knob smaller than 120x120 points. Because of this, 
  * rotary knob controls probably work best on an iPad.
  *
  * This class needs the QuartzCore framework.

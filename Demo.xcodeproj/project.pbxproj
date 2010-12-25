@@ -20,6 +20,7 @@
 		7B8A772312C4F51900591C8C /* Knob Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A772212C4F51900591C8C /* Knob Highlighted.png */; };
 		7B8A77AA12C5071D00591C8C /* Knob Disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A77A912C5071D00591C8C /* Knob Disabled.png */; };
 		7B8A77E012C517FC00591C8C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8A77DF12C517FC00591C8C /* QuartzCore.framework */; };
+		7BE58D0A12C5E54200123765 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE58D0912C5E54200123765 /* MainWindow-iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		7B8A772212C4F51900591C8C /* Knob Highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Highlighted.png"; sourceTree = "<group>"; };
 		7B8A77A912C5071D00591C8C /* Knob Disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Disabled.png"; sourceTree = "<group>"; };
 		7B8A77DF12C517FC00591C8C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7BE58D0912C5E54200123765 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,6 +89,7 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				7B8A753512C4ABB600591C8C /* Images */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				7BE58D0812C5E54200123765 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -131,6 +134,14 @@
 				7B8A77A912C5071D00591C8C /* Knob Disabled.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		7BE58D0812C5E54200123765 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				7BE58D0912C5E54200123765 /* MainWindow-iPad.xib */,
+			);
+			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +198,7 @@
 				7B8A753712C4ABB600591C8C /* Knob.png in Resources */,
 				7B8A772312C4F51900591C8C /* Knob Highlighted.png in Resources */,
 				7B8A77AA12C5071D00591C8C /* Knob Disabled.png in Resources */,
+				7BE58D0A12C5E54200123765 /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,13 +223,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
 				INFOPLIST_FILE = "Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = Demo;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -225,11 +241,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
 				INFOPLIST_FILE = "Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = Demo;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
