@@ -20,7 +20,12 @@
 		7B8A772312C4F51900591C8C /* Knob Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A772212C4F51900591C8C /* Knob Highlighted.png */; };
 		7B8A77AA12C5071D00591C8C /* Knob Disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B8A77A912C5071D00591C8C /* Knob Disabled.png */; };
 		7B8A77E012C517FC00591C8C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B8A77DF12C517FC00591C8C /* QuartzCore.framework */; };
+		7BC0B13F12C73CA900D2AB04 /* Knob Highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC0B13D12C73CA900D2AB04 /* Knob Highlighted@2x.png */; };
+		7BC0B14012C73CA900D2AB04 /* Knob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC0B13E12C73CA900D2AB04 /* Knob@2x.png */; };
+		7BC0B14212C73E6C00D2AB04 /* Knob Disabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BC0B14112C73E6C00D2AB04 /* Knob Disabled@2x.png */; };
 		7BE58D0A12C5E54200123765 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE58D0912C5E54200123765 /* MainWindow-iPad.xib */; };
+		7BE58D2612C5F4B400123765 /* Knob Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BE58D2412C5F4B400123765 /* Knob Background.png */; };
+		7BE58D2712C5F4B400123765 /* Knob Background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BE58D2512C5F4B400123765 /* Knob Background@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +47,12 @@
 		7B8A772212C4F51900591C8C /* Knob Highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Highlighted.png"; sourceTree = "<group>"; };
 		7B8A77A912C5071D00591C8C /* Knob Disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Disabled.png"; sourceTree = "<group>"; };
 		7B8A77DF12C517FC00591C8C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7BC0B13D12C73CA900D2AB04 /* Knob Highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Highlighted@2x.png"; sourceTree = "<group>"; };
+		7BC0B13E12C73CA900D2AB04 /* Knob@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob@2x.png"; sourceTree = "<group>"; };
+		7BC0B14112C73E6C00D2AB04 /* Knob Disabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Disabled@2x.png"; sourceTree = "<group>"; };
 		7BE58D0912C5E54200123765 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		7BE58D2412C5F4B400123765 /* Knob Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Background.png"; sourceTree = "<group>"; };
+		7BE58D2512C5F4B400123765 /* Knob Background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knob Background@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,9 +139,14 @@
 		7B8A753512C4ABB600591C8C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				7B8A753612C4ABB600591C8C /* Knob.png */,
-				7B8A772212C4F51900591C8C /* Knob Highlighted.png */,
+				7BE58D2412C5F4B400123765 /* Knob Background.png */,
+				7BE58D2512C5F4B400123765 /* Knob Background@2x.png */,
 				7B8A77A912C5071D00591C8C /* Knob Disabled.png */,
+				7BC0B14112C73E6C00D2AB04 /* Knob Disabled@2x.png */,
+				7B8A772212C4F51900591C8C /* Knob Highlighted.png */,
+				7BC0B13D12C73CA900D2AB04 /* Knob Highlighted@2x.png */,
+				7B8A753612C4ABB600591C8C /* Knob.png */,
+				7BC0B13E12C73CA900D2AB04 /* Knob@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -199,6 +214,11 @@
 				7B8A772312C4F51900591C8C /* Knob Highlighted.png in Resources */,
 				7B8A77AA12C5071D00591C8C /* Knob Disabled.png in Resources */,
 				7BE58D0A12C5E54200123765 /* MainWindow-iPad.xib in Resources */,
+				7BE58D2612C5F4B400123765 /* Knob Background.png in Resources */,
+				7BE58D2712C5F4B400123765 /* Knob Background@2x.png in Resources */,
+				7BC0B13F12C73CA900D2AB04 /* Knob Highlighted@2x.png in Resources */,
+				7BC0B14012C73CA900D2AB04 /* Knob@2x.png in Resources */,
+				7BC0B14212C73E6C00D2AB04 /* Knob Disabled@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -182,7 +182,10 @@
 			knobImageNormal = [image retain];
 
 			if (self.state == UIControlStateNormal)
+			{
 				knobImageView.image = image;
+				[knobImageView sizeToFit];
+			}
 		}
 	}
 
@@ -221,6 +224,16 @@
 		return knobImageDisabled;
 	else
 		return nil;
+}
+
+- (CGPoint)knobImageCenter
+{
+	return knobImageView.center;
+}
+
+- (void)setKnobImageCenter:(CGPoint)theCenter
+{
+	knobImageView.center = theCenter;
 }
 
 - (void)setValue:(float)newValue
@@ -295,7 +308,6 @@
 	if (fabsf(delta) > 45.0f)
 		return NO;
 
-	// Move the knob's value accordingly.
 	self.value += (maximumValue - minimumValue) * delta / (MAX_ANGLE*2.0f);
 
 	// Note that the above is equivalent to:

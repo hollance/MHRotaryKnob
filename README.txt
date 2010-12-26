@@ -6,11 +6,14 @@ a UISlider but its shape is square rather than long and narrow.
 HOW TO USE:
 
 Copy MHRotaryKnob.h and MHRotaryKnob.m into your project. Add QuartzCore to your
-frameworks.
+target's frameworks.
 
 You have to provide the images for the knob and the background. The demo project
 includes a few basic images but you probably want to use graphics that suit your
-app's look-and-feel better.
+app's look-and-feel better. 
+
+(The demo project also includes Knob.xcf, which is the source GIMP file that I
+used to draw the knob image.)
 
 If you want to do more fancy drawing, then you can easily modify the class. Its
 -valueDidChangeFrom:to:animated: method is invoked whenever the value changes. 

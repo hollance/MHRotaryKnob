@@ -16,9 +16,11 @@
 	rotaryKnob.defaultValue = rotaryKnob.value;
 	rotaryKnob.resetsToDefault = YES;
 	rotaryKnob.backgroundColor = [UIColor clearColor];
+	rotaryKnob.backgroundImage = [UIImage imageNamed:@"Knob Background.png"];
 	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob.png"] forState:UIControlStateNormal];
 	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Highlighted.png"] forState:UIControlStateHighlighted];
 	[rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Disabled.png"] forState:UIControlStateDisabled];
+	rotaryKnob.knobImageCenter = CGPointMake(80.0f, 76.0f);
 	[rotaryKnob addTarget:self action:@selector(rotaryKnobDidChange) forControlEvents:UIControlEventValueChanged];
 }
 

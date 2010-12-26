@@ -65,6 +65,9 @@
 /*! The image currently being used to draw the knob. */
 @property (nonatomic, retain, readonly) UIImage* currentKnobImage;
 
+/*! For positioning the knob image. */
+@property (nonatomic, assign) CGPoint knobImageCenter;
+
 /*! The maximum value of the control. Default is 1.0f. */
 @property (nonatomic, assign) float maximumValue;
 
