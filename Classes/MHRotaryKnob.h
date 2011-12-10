@@ -3,7 +3,9 @@
  *
  * \brief UIControl subclass that acts like a rotary knob.
  *
- * Copyright (c) 2010 Matthijs Hollemans
+ * Copyright (c) 2010-2011 Matthijs Hollemans
+ *
+ * With contributions from Tim Kemp (slider-style tracking).
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +29,26 @@
 #import <UIKit/UIKit.h>
 
 /*!
+ * Possible values for the rotary knob's interactionStyle property.
+ */
+typedef enum
+{
+	MHRotaryKnobInteractionStyleRotating,
+	MHRotaryKnobInteractionStyleSliderHorizontal,  // left -, right +
+	MHRotaryKnobInteractionStyleSliderVertical     // up +, down -
+}
+MHRotaryKnobInteractionStyle;
+
+/*!
  * A rotary knob control.
  *
  * Operation of this control is similar to a UISlider. You can set a minimum,
  * maximum, and current value. When the knob is turned the control sends out
  * a \c UIControlEventValueChanged notification to its target-action.
+ *
+ * The \c interactionStyle property determines the way the control is operated.
+ * It can be configured to act like a knob that must be turned, or to act like
+ * a horizontal or vertical slider.
  *
  * The control uses two images, one for the background and one for the knob. 
  * The background image is optional but you must set at least the knob image
@@ -57,7 +74,12 @@
 	UIImage* knobImageHighlighted;     ///< knob image for highlighted state
 	UIImage* knobImageDisabled;        ///< knob image for disabled state
 	float angle;                       ///< for tracking touches
+	CGPoint touchOrigin;               ///< for horizontal/vertical tracking
+	BOOL canReset;                     ///< prevents reset while still dragging
 }
+
+/*! How the user interacts with the control. */
+@property (nonatomic, assign) MHRotaryKnobInteractionStyle interactionStyle;
 
 /*! The image that is drawn behind the knob. May be nil. */
 @property (nonatomic, retain) UIImage* backgroundImage;
@@ -92,6 +114,12 @@
  * knob. The default is YES.
  */
 @property (nonatomic, assign) BOOL continuous;
+
+/*!
+ * How many points of movement result in a one degree rotation in the knob's
+ * position. Only used in the horizontal/vertical slider modes. Default is 1.
+ */
+@property (nonatomic, assign) float scalingFactor;
 
 /*!
  * Sets the controls’s current value, allowing you to animate the change

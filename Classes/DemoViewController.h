@@ -2,8 +2,6 @@
 @class MHRotaryKnob;
 
 @interface DemoViewController : UIViewController
-{
-}
 
 @property (nonatomic, retain) IBOutlet UISlider* slider;
 @property (nonatomic, retain) IBOutlet UILabel* label;
@@ -15,5 +13,6 @@
 - (IBAction)toggleContinuous;
 - (IBAction)goToMinimum;
 - (IBAction)goToMaximum;
+- (IBAction)toggleInteractionStyle:(id)sender;
 
 @end

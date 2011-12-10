@@ -10,6 +10,8 @@
 {
 	[super viewDidLoad];
 
+	rotaryKnob.interactionStyle = MHRotaryKnobInteractionStyleRotating;
+	rotaryKnob.scalingFactor = 1.5f;
 	rotaryKnob.maximumValue = slider.maximumValue;
 	rotaryKnob.minimumValue = slider.minimumValue;
 	rotaryKnob.value = slider.value;
@@ -76,6 +78,31 @@
 {
 	[slider setValue:slider.maximumValue animated:YES];
 	[rotaryKnob setValue:rotaryKnob.maximumValue animated:YES];
+}
+
+- (IBAction)toggleInteractionStyle:(UIButton *)sender
+{
+	MHRotaryKnobInteractionStyle style = rotaryKnob.interactionStyle + 1;
+
+	if (style > MHRotaryKnobInteractionStyleSliderVertical)
+		style = MHRotaryKnobInteractionStyleRotating;
+
+	rotaryKnob.interactionStyle = style;
+
+	switch (style)
+	{
+		case MHRotaryKnobInteractionStyleRotating:
+			[sender setTitle:@"Style: Rotating" forState:UIControlStateNormal];
+			break;
+
+		case MHRotaryKnobInteractionStyleSliderHorizontal:
+			[sender setTitle:@"Style: Horizontal" forState:UIControlStateNormal];
+			break;
+
+		case MHRotaryKnobInteractionStyleSliderVertical:
+			[sender setTitle:@"Style: Vertical" forState:UIControlStateNormal];
+			break;
+	}
 }
 
 @end

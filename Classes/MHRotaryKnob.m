@@ -8,13 +8,29 @@
 	to the right (the maximum is +MAX_ANGLE).
  */
 
-#define MAX_ANGLE 135.0f
-#define MIN_DISTANCE_SQUARED 16.0f
+const float MAX_ANGLE = 135.0f;
+const float MIN_DISTANCE_SQUARED = 16.0f;
 
 @implementation MHRotaryKnob
 
-@synthesize maximumValue, minimumValue, value, continuous, defaultValue,
-            resetsToDefault;
+@synthesize interactionStyle;
+@synthesize maximumValue;
+@synthesize minimumValue;
+@synthesize value;
+@synthesize continuous;
+@synthesize defaultValue;
+@synthesize resetsToDefault;
+@synthesize scalingFactor;
+
+- (float)clampAngle:(float)theAngle
+{
+	if (theAngle < -MAX_ANGLE)
+		theAngle = -MAX_ANGLE;
+	else if (theAngle > MAX_ANGLE)
+		theAngle = MAX_ANGLE;
+
+	return theAngle;
+}
 
 - (float)angleForValue:(float)theValue
 {
@@ -34,12 +50,7 @@
 	// coordinate system is turned upside down and rotated 90 degrees. :-)
 	float theAngle = atan2(point.x - center.x, center.y - point.y) * 180.0f/M_PI;
 
-	if (theAngle < -MAX_ANGLE)
-		theAngle = -MAX_ANGLE;
-	else if (theAngle > MAX_ANGLE)
-		theAngle = MAX_ANGLE;
-
-	return theAngle;
+	return [self clampAngle:theAngle];
 }
 
 - (float)squaredDistanceToCenter:(CGPoint)point
@@ -48,6 +59,19 @@
 	float dx = point.x - center.x;
 	float dy = point.y - center.y;
 	return dx*dx + dy*dy;
+}
+
+- (float)valueForPosition:(CGPoint)point
+{
+	float delta;
+	if (self.interactionStyle == MHRotaryKnobInteractionStyleSliderVertical)
+		delta = touchOrigin.y - point.y;
+	else
+		delta = point.x - touchOrigin.x;
+
+	float newAngle = delta*self.scalingFactor + angle;
+	newAngle = [self clampAngle:newAngle];
+	return [self valueForAngle:newAngle];
 }
 
 - (void)showNormalKnobImage
@@ -92,7 +116,8 @@
 		animation.values = [NSArray arrayWithObjects:
 			[NSNumber numberWithFloat:oldAngle * M_PI/180.0f],
 			[NSNumber numberWithFloat:(newAngle + oldAngle)/2.0f * M_PI/180.0f], 
-			[NSNumber numberWithFloat:newAngle * M_PI/180.0f], nil]; 
+			[NSNumber numberWithFloat:newAngle * M_PI/180.0f],
+			nil];
 
 		animation.keyTimes = [NSArray arrayWithObjects:
 			[NSNumber numberWithFloat:0.0f], 
@@ -111,14 +136,16 @@
 	knobImageView.transform = CGAffineTransformMakeRotation(newAngle * M_PI/180.0f);
 }
 
-- (void)setUp
+- (void)commonInit
 {
+	interactionStyle = MHRotaryKnobInteractionStyleRotating;
 	minimumValue = 0.0f;
 	maximumValue = 1.0f;
 	value = defaultValue = 0.5f;
 	angle = 0.0f;
 	continuous = YES;
 	resetsToDefault = YES;
+	scalingFactor = 1.0f;
 
 	backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:backgroundImageView];
@@ -133,7 +160,7 @@
 {
 	if ((self = [super initWithFrame:frame]))
 	{
-		[self setUp];
+		[self commonInit];
 	}
 	return self;
 }
@@ -142,7 +169,7 @@
 {
 	if ((self = [super initWithCoder:aDecoder]))
 	{
-		[self setUp];
+		[self commonInit];
 	}
 	return self;
 }
@@ -270,24 +297,33 @@
 - (BOOL)beginTrackingWithTouch:(UITouch*)touch withEvent:(UIEvent*)event
 {
 	CGPoint point = [touch locationInView:self];
-	
-	// If the touch is too close to the center, we can't calculate a decent
-	// angle and the knob becomes too jumpy.
-	if ([self squaredDistanceToCenter:point] < MIN_DISTANCE_SQUARED)
-		return NO;
 
-	// Calculate starting angle between touch and center of control.
-	angle = [self angleBetweenCenterAndPoint:point];
+	if (self.interactionStyle == MHRotaryKnobInteractionStyleRotating)
+	{
+		// If the touch is too close to the center, we can't calculate a decent
+		// angle and the knob becomes too jumpy.
+		if ([self squaredDistanceToCenter:point] < MIN_DISTANCE_SQUARED)
+			return NO;
+
+		// Calculate starting angle between touch and center of control.
+		angle = [self angleBetweenCenterAndPoint:point];
+	}
+	else
+	{
+		touchOrigin = point;
+		angle = [self angleForValue:value];
+	}
 
 	self.highlighted = YES;
 	[self showHighlighedKnobImage];
+	canReset = NO;
 	
 	return YES;
 }
 
 - (BOOL)handleTouch:(UITouch*)touch
 {
-	if (touch.tapCount > 1 && resetsToDefault)
+	if (touch.tapCount > 1 && resetsToDefault && canReset)
 	{
 		[self setValue:defaultValue animated:YES];
 		return NO;
@@ -295,23 +331,30 @@
 
 	CGPoint point = [touch locationInView:self];
 
-	if ([self squaredDistanceToCenter:point] < MIN_DISTANCE_SQUARED)
-		return NO;
-	
-	// Calculate how much the angle has changed since the last event.
-	float newAngle = [self angleBetweenCenterAndPoint:point];
-	float delta = newAngle - angle;
-	angle = newAngle;
+	if (self.interactionStyle == MHRotaryKnobInteractionStyleRotating)
+	{
+		if ([self squaredDistanceToCenter:point] < MIN_DISTANCE_SQUARED)
+			return NO;
 
-	// We don't want the knob to jump from minimum to maximum or vice versa
-	// so disallow huge changes.
-	if (fabsf(delta) > 45.0f)
-		return NO;
+		// Calculate how much the angle has changed since the last event.
+		float newAngle = [self angleBetweenCenterAndPoint:point];
+		float delta = newAngle - angle;
+		angle = newAngle;
 
-	self.value += (maximumValue - minimumValue) * delta / (MAX_ANGLE*2.0f);
+		// We don't want the knob to jump from minimum to maximum or vice versa
+		// so disallow huge changes.
+		if (fabsf(delta) > 45.0f)
+			return NO;
 
-	// Note that the above is equivalent to:
-	//self.value += [self valueForAngle:newAngle] - [self valueForAngle:angle];
+		self.value += (maximumValue - minimumValue) * delta / (MAX_ANGLE*2.0f);
+
+		// Note that the above is equivalent to:
+		//self.value += [self valueForAngle:newAngle] - [self valueForAngle:angle];
+	}
+	else
+	{
+		self.value = [self valueForPosition:point];
+	}
 
 	return YES;
 }
@@ -328,6 +371,10 @@
 {
 	self.highlighted = NO;
 	[self showNormalKnobImage];
+
+	// You can only reset the knob's position if you immediately stop dragging
+	// the knob after double-tapping it, i.e. when tracking ends.
+	canReset = YES;
 
 	[self handleTouch:touch];
 	[self sendActionsForControlEvents:UIControlEventValueChanged];
