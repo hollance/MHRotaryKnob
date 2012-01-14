@@ -1,4 +1,3 @@
-
 #import <QuartzCore/QuartzCore.h>
 #import "MHRotaryKnob.h"
 
@@ -153,6 +152,9 @@ const float MIN_DISTANCE_SQUARED = 16.0f;
 	knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:knobImageView];
 
+	foregroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+	[self addSubview:foregroundImageView];
+    
 	[self valueDidChangeFrom:value to:value animated:NO];
 }
 
@@ -192,6 +194,16 @@ const float MIN_DISTANCE_SQUARED = 16.0f;
 - (void)setBackgroundImage:(UIImage*)image
 {
 	backgroundImageView.image = image;
+}
+
+- (UIImage*)foregroundImage
+{
+	return foregroundImageView.image;
+}
+
+- (void)setForegroundImage:(UIImage*)image
+{
+	foregroundImageView.image = image;
 }
 
 - (UIImage*)currentKnobImage
