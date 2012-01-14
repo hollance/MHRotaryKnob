@@ -70,6 +70,7 @@ MHRotaryKnobInteractionStyle;
 {
 	UIImageView* backgroundImageView;  ///< shows the background image
 	UIImageView* knobImageView;        ///< shows the knob image
+	UIImageView* foregroundImageView;  /// foreground image (i.e. shadow transparency overlay)	
 	UIImage* knobImageNormal;          ///< knob image for normal state
 	UIImage* knobImageHighlighted;     ///< knob image for highlighted state
 	UIImage* knobImageDisabled;        ///< knob image for disabled state
@@ -83,6 +84,9 @@ MHRotaryKnobInteractionStyle;
 
 /*! The image that is drawn behind the knob. May be nil. */
 @property (nonatomic, retain) UIImage* backgroundImage;
+
+/*! The image that is drawn in front of the knob. May be nil. */
+@property (nonatomic, strong) UIImage* foregroundImage;
 
 /*! The image currently being used to draw the knob. */
 @property (nonatomic, retain, readonly) UIImage* currentKnobImage;
