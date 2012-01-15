@@ -147,9 +147,6 @@ const float MIN_DISTANCE_SQUARED = 16.0f;
 	resetsToDefault = YES;
 	scalingFactor = 1.0f;
 
-	backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-	[self addSubview:backgroundImageView];
-
 	knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:knobImageView];
 
@@ -176,6 +173,7 @@ const float MIN_DISTANCE_SQUARED = 16.0f;
 
 - (void)dealloc
 {
+	[foregroundImageView release];
 	[knobImageView release];
 	[backgroundImageView release];
 	[knobImageNormal release];
@@ -191,7 +189,31 @@ const float MIN_DISTANCE_SQUARED = 16.0f;
 
 - (void)setBackgroundImage:(UIImage*)image
 {
+	if (backgroundImageView == nil)
+	{
+		backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+		[self addSubview:backgroundImageView];
+		[self sendSubviewToBack:backgroundImageView];
+	}
+
 	backgroundImageView.image = image;
+}
+
+- (UIImage*)foregroundImage
+{
+	return foregroundImageView.image;
+}
+
+- (void)setForegroundImage:(UIImage*)image
+{
+	if (foregroundImageView == nil)
+	{
+		foregroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+		[self addSubview:foregroundImageView];
+		[self bringSubviewToFront:foregroundImageView];
+	}
+
+	foregroundImageView.image = image;
 }
 
 - (UIImage*)currentKnobImage

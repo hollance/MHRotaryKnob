@@ -3,7 +3,7 @@
  *
  * \brief UIControl subclass that acts like a rotary knob.
  *
- * Copyright (c) 2010-2011 Matthijs Hollemans
+ * Copyright (c) 2010-2012 Matthijs Hollemans
  *
  * With contributions from Tim Kemp (slider-style tracking).
  * 
@@ -69,6 +69,7 @@ MHRotaryKnobInteractionStyle;
 @interface MHRotaryKnob : UIControl
 {
 	UIImageView* backgroundImageView;  ///< shows the background image
+	UIImageView* foregroundImageView;  ///< shows the foreground image
 	UIImageView* knobImageView;        ///< shows the knob image
 	UIImage* knobImageNormal;          ///< knob image for normal state
 	UIImage* knobImageHighlighted;     ///< knob image for highlighted state
@@ -83,6 +84,12 @@ MHRotaryKnobInteractionStyle;
 
 /*! The image that is drawn behind the knob. May be nil. */
 @property (nonatomic, retain) UIImage* backgroundImage;
+
+/*!
+ * The image that is drawn on top of the knob. May be nil. This is useful
+ * for partially transparent overlays to make shadow or highlight effects.
+ */
+@property (nonatomic, strong) UIImage* foregroundImage;
 
 /*! The image currently being used to draw the knob. */
 @property (nonatomic, retain, readonly) UIImage* currentKnobImage;
