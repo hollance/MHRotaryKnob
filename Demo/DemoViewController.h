@@ -3,9 +3,9 @@
 
 @interface DemoViewController : UIViewController
 
-@property (nonatomic, retain) IBOutlet UISlider* slider;
-@property (nonatomic, retain) IBOutlet UILabel* label;
-@property (nonatomic, retain) IBOutlet MHRotaryKnob* rotaryKnob;
+@property (nonatomic, weak) IBOutlet UISlider *slider;
+@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, weak) IBOutlet MHRotaryKnob *rotaryKnob;
 
 - (IBAction)sliderDidChange;
 - (IBAction)rotaryKnobDidChange;
