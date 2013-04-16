@@ -114,6 +114,14 @@ MHRotaryKnobInteractionStyle;
 @property (nonatomic, assign) float scalingFactor;
 
 /*
+ * Custom initializers, used to set the constants maxAngle and minDistanceSquared 
+ * to custom values.
+ */
+- (id)initWithFrame:(CGRect)frame maxAngle:(CGFloat)maxAngle;
+- (id)initWithFrame:(CGRect)frame minDistanceSquared:(CGFloat)minDistanceSquared;
+- (id)initWithFrame:(CGRect)frame maxAngle:(CGFloat)maxAngle minDistanceSquared:(CGFloat)minDistanceSquared;
+
+/*
  * Sets the controls’s current value, allowing you to animate the change
  * visually.
  */

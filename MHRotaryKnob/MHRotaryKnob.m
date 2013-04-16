@@ -4,12 +4,16 @@
 
 /*
 	For our purposes, it's more convenient if we put 0 degrees at the top, 
-	negative degrees to the left (the minimum is -MaxAngle), and positive
-	to the right (the maximum is +MaxAngle).
+	negative degrees to the left (the minimum is -self.maxAngle), and positive
+	to the right (the maximum is +self.maxAngle).
  */
 
-const float MaxAngle = 135.0f;
-const float MinDistanceSquared = 16.0f;
+@interface MHRotaryKnob ()
+
+@property (nonatomic, assign) CGFloat maxAngle;
+@property (nonatomic, assign) CGFloat minDistanceSquared;
+
+@end
 
 @implementation MHRotaryKnob
 {
@@ -33,11 +37,35 @@ const float MinDistanceSquared = 16.0f;
 	return self;
 }
 
+- (id)initWithFrame:(CGRect)frame maxAngle:(CGFloat)maxAngle {
+	if ((self = [self initWithFrame:frame]))
+	{
+		_maxAngle = maxAngle;
+	}
+	return self;
+}
+
+- (id)initWithFrame:(CGRect)frame minDistanceSquared:(CGFloat)minDistanceSquared {
+	if ((self = [self initWithFrame:frame]))
+	{
+		_minDistanceSquared = minDistanceSquared;
+	}
+	return self;
+}
+
+- (id)initWithFrame:(CGRect)frame maxAngle:(CGFloat)maxAngle minDistanceSquared:(CGFloat)minDistanceSquared {
+	if ((self = [self initWithFrame:frame maxAngle:maxAngle]))
+	{
+		_minDistanceSquared = minDistanceSquared;
+	}
+	return self;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if ((self = [super initWithCoder:aDecoder]))
 	{
-		[self commonInit];
+		
 	}
 	return self;
 }
@@ -52,7 +80,10 @@ const float MinDistanceSquared = 16.0f;
 	_continuous = YES;
 	_resetsToDefault = YES;
 	_scalingFactor = 1.0f;
+    _maxAngle = 135.f;
+    _minDistanceSquared = 16.f;
 
+    CGRect bounds = self.bounds;
 	_knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:_knobImageView];
 
@@ -63,22 +94,22 @@ const float MinDistanceSquared = 16.0f;
 
 - (float)clampAngle:(float)theAngle
 {
-	if (theAngle < -MaxAngle)
-		theAngle = -MaxAngle;
-	else if (theAngle > MaxAngle)
-		theAngle = MaxAngle;
+	if (theAngle < -self.maxAngle)
+		theAngle = -self.maxAngle;
+	else if (theAngle > self.maxAngle)
+		theAngle = self.maxAngle;
 
 	return theAngle;
 }
 
 - (float)angleForValue:(float)value
 {
-	return ((value - self.minimumValue)/(self.maximumValue - self.minimumValue) - 0.5f) * (MaxAngle*2.0f);
+	return ((value - self.minimumValue)/(self.maximumValue - self.minimumValue) - 0.5f) * (self.maxAngle*2.0f);
 }
 
 - (float)valueForAngle:(float)angle
 {
-	return (angle/(MaxAngle*2.0f) + 0.5f) * (self.maximumValue - self.minimumValue) + self.minimumValue;
+	return (angle/(self.maxAngle*2.0f) + 0.5f) * (self.maximumValue - self.minimumValue) + self.minimumValue;
 }
 
 - (float)angleBetweenCenterAndPoint:(CGPoint)point
@@ -154,7 +185,7 @@ const float MinDistanceSquared = 16.0f;
 	{
 		// If the touch is too close to the center, we can't calculate a decent
 		// angle and the knob becomes too jumpy.
-		if ([self squaredDistanceToCenter:point] < MinDistanceSquared)
+		if ([self squaredDistanceToCenter:point] < self.minDistanceSquared)
 			return NO;
 
 		// Calculate starting angle between touch and center of control.
@@ -185,7 +216,7 @@ const float MinDistanceSquared = 16.0f;
 
 	if (self.interactionStyle == MHRotaryKnobInteractionStyleRotating)
 	{
-		if ([self squaredDistanceToCenter:point] < MinDistanceSquared)
+		if ([self squaredDistanceToCenter:point] < self.minDistanceSquared)
 			return NO;
 
 		// Calculate how much the angle has changed since the last event.
@@ -198,7 +229,7 @@ const float MinDistanceSquared = 16.0f;
 		if (fabsf(delta) > 45.0f)
 			return NO;
 
-		self.value += (self.maximumValue - self.minimumValue) * delta / (MaxAngle*2.0f);
+		self.value += (self.maximumValue - self.minimumValue) * delta / (self.maxAngle*2.0f);
 
 		// Note that the above is equivalent to:
 		//self.value += [self valueForAngle:newAngle] - [self valueForAngle:angle];
