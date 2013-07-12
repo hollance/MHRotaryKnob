@@ -83,7 +83,6 @@
     _maxAngle = 135.f;
     _minDistanceSquared = 16.f;
 
-    CGRect bounds = self.bounds;
 	_knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:_knobImageView];
 
@@ -351,7 +350,6 @@
 			if (self.state == UIControlStateNormal)
 			{
 				_knobImageView.image = image;
-				[_knobImageView sizeToFit];
 			}
 		}
 	}
