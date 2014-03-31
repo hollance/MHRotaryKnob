@@ -8,8 +8,8 @@
 	to the right (the maximum is +MaxAngle).
  */
 
-const float MaxAngle = 135.0f;
-const float MinDistanceSquared = 16.0f;
+const CGFloat MaxAngle = 135.0;
+const CGFloat MinDistanceSquared = 16.0;
 
 @implementation MHRotaryKnob
 {
@@ -19,7 +19,7 @@ const float MinDistanceSquared = 16.0f;
 	UIImage *_knobImageNormal;          // knob image for normal state
 	UIImage *_knobImageHighlighted;     // knob image for highlighted state
 	UIImage *_knobImageDisabled;        // knob image for disabled state
-	float _angle;                       // for tracking touches
+	CGFloat _angle;                     // for tracking touches
 	CGPoint _touchOrigin;               // for horizontal/vertical tracking
 	BOOL _canReset;                     // prevents reset while still dragging
 }
@@ -45,13 +45,13 @@ const float MinDistanceSquared = 16.0f;
 - (void)commonInit
 {
 	_interactionStyle = MHRotaryKnobInteractionStyleRotating;
-	_minimumValue = 0.0f;
-	_maximumValue = 1.0f;
-	_value = _defaultValue = 0.5f;
-	_angle = 0.0f;
+	_minimumValue = 0.0;
+	_maximumValue = 1.0;
+	_value = _defaultValue = 0.5;
+	_angle = 0.0;
 	_continuous = YES;
 	_resetsToDefault = YES;
-	_scalingFactor = 1.0f;
+	_scalingFactor = 1.0;
 
 	_knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:_knobImageView];
@@ -61,66 +61,66 @@ const float MinDistanceSquared = 16.0f;
 
 #pragma mark - Data Model
 
-- (float)clampAngle:(float)theAngle
+- (CGFloat)clampAngle:(CGFloat)angle
 {
-	if (theAngle < -MaxAngle)
-		theAngle = -MaxAngle;
-	else if (theAngle > MaxAngle)
-		theAngle = MaxAngle;
-
-	return theAngle;
+	if (angle < -MaxAngle)
+		return -MaxAngle;
+	else if (angle > MaxAngle)
+		return MaxAngle;
+	else
+		return angle;
 }
 
-- (float)angleForValue:(float)value
+- (CGFloat)angleForValue:(CGFloat)value
 {
-	return ((value - self.minimumValue)/(self.maximumValue - self.minimumValue) - 0.5f) * (MaxAngle*2.0f);
+	return ((value - self.minimumValue)/(self.maximumValue - self.minimumValue) - 0.5) * (MaxAngle*2.0);
 }
 
-- (float)valueForAngle:(float)angle
+- (CGFloat)valueForAngle:(CGFloat)angle
 {
-	return (angle/(MaxAngle*2.0f) + 0.5f) * (self.maximumValue - self.minimumValue) + self.minimumValue;
+	return (angle/(MaxAngle*2.0) + 0.5) * (self.maximumValue - self.minimumValue) + self.minimumValue;
 }
 
-- (float)angleBetweenCenterAndPoint:(CGPoint)point
+- (CGFloat)angleBetweenCenterAndPoint:(CGPoint)point
 {
-	CGPoint center = CGPointMake(self.bounds.size.width/2.0f, self.bounds.size.height/2.0f);
+	CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 
 	// Yes, the arguments to atan2() are in the wrong order. That's because
 	// our coordinate system is turned upside down and rotated 90 degrees.
-	float theAngle = atan2(point.x - center.x, center.y - point.y) * 180.0f/M_PI;
+	CGFloat angle = atan2(point.x - center.x, center.y - point.y) * 180.0/M_PI;
 
-	return [self clampAngle:theAngle];
+	return [self clampAngle:angle];
 }
 
-- (float)squaredDistanceToCenter:(CGPoint)point
+- (CGFloat)squaredDistanceToCenter:(CGPoint)point
 {
-	CGPoint center = CGPointMake(self.bounds.size.width/2.0f, self.bounds.size.height/2.0f);
-	float dx = point.x - center.x;
-	float dy = point.y - center.y;
+	CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+	CGFloat dx = point.x - center.x;
+	CGFloat dy = point.y - center.y;
 	return dx*dx + dy*dy;
 }
 
-- (float)valueForPosition:(CGPoint)point
+- (CGFloat)valueForPosition:(CGPoint)point
 {
-	float delta;
+	CGFloat delta;
 	if (self.interactionStyle == MHRotaryKnobInteractionStyleSliderVertical)
 		delta = _touchOrigin.y - point.y;
 	else
 		delta = point.x - _touchOrigin.x;
 
-	float newAngle = delta * self.scalingFactor + _angle;
+	CGFloat newAngle = delta * self.scalingFactor + _angle;
 	newAngle = [self clampAngle:newAngle];
 	return [self valueForAngle:newAngle];
 }
 
-- (void)setValue:(float)newValue
+- (void)setValue:(CGFloat)newValue
 {
 	[self setValue:newValue animated:NO];
 }
 
-- (void)setValue:(float)newValue animated:(BOOL)animated
+- (void)setValue:(CGFloat)newValue animated:(BOOL)animated
 {
-	float oldValue = _value;
+	CGFloat oldValue = _value;
 
 	if (newValue < self.minimumValue)
 		_value = self.minimumValue;
@@ -129,7 +129,7 @@ const float MinDistanceSquared = 16.0f;
 	else
 		_value = newValue;
 
-	[self valueDidChangeFrom:(float)oldValue to:(float)_value animated:animated];
+	[self valueDidChangeFrom:oldValue to:_value animated:animated];
 }
 
 - (void)setEnabled:(BOOL)isEnabled
@@ -189,16 +189,16 @@ const float MinDistanceSquared = 16.0f;
 			return NO;
 
 		// Calculate how much the angle has changed since the last event.
-		float newAngle = [self angleBetweenCenterAndPoint:point];
-		float delta = newAngle - _angle;
+		CGFloat newAngle = [self angleBetweenCenterAndPoint:point];
+		CGFloat delta = newAngle - _angle;
 		_angle = newAngle;
 
 		// We don't want the knob to jump from minimum to maximum or vice versa
 		// so disallow huge changes.
-		if (fabsf(delta) > 45.0f)
+		if (fabs(delta) > 45.0)
 			return NO;
 
-		self.value += (self.maximumValue - self.minimumValue) * delta / (MaxAngle*2.0f);
+		self.value += (self.maximumValue - self.minimumValue) * delta / (MaxAngle*2.0);
 
 		// Note that the above is equivalent to:
 		//self.value += [self valueForAngle:newAngle] - [self valueForAngle:angle];
@@ -240,11 +240,11 @@ const float MinDistanceSquared = 16.0f;
 
 #pragma mark - Visuals
 
-- (void)valueDidChangeFrom:(float)oldValue to:(float)newValue animated:(BOOL)animated
+- (void)valueDidChangeFrom:(CGFloat)oldValue to:(CGFloat)newValue animated:(BOOL)animated
 {
 	// (If you want to do custom drawing, then this is the place to do so.)
 
-	float newAngle = [self angleForValue:newValue];
+	CGFloat newAngle = [self angleForValue:newValue];
 
 	if (animated)
 	{
@@ -253,26 +253,26 @@ const float MinDistanceSquared = 16.0f;
 		// set up a keyframe animation with three keyframes: the old angle, the
 		// midpoint between the old and new angles, and the new angle.
 
-		float oldAngle = [self angleForValue:oldValue];
+		CGFloat oldAngle = [self angleForValue:oldValue];
 
 		CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
-		animation.duration = 0.2f;
+		animation.duration = 0.2;
 
-		animation.values = @[[NSNumber numberWithFloat:oldAngle * M_PI/180.0f],
-			[NSNumber numberWithFloat:(newAngle + oldAngle)/2.0f * M_PI/180.0f], 
-			[NSNumber numberWithFloat:newAngle * M_PI/180.0f]];
+		animation.values = @[
+			@(oldAngle * M_PI/180.0),
+			@((newAngle + oldAngle)/2.0 * M_PI/180.0),
+			@(newAngle * M_PI/180.0)];
 
-		animation.keyTimes = @[@0.0f, 
-			@0.5f, 
-			@1.0f]; 
+		animation.keyTimes = @[@0.0, @0.5, @1.0];
 
-		animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+		animation.timingFunctions = @[
+			[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
 			[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
 
 		[_knobImageView.layer addAnimation:animation forKey:nil];
 	}
 
-	_knobImageView.transform = CGAffineTransformMakeRotation(newAngle * M_PI/180.0f);
+	_knobImageView.transform = CGAffineTransformMakeRotation(newAngle * M_PI/180.0);
 }
 
 - (void)setBackgroundImage:(UIImage *)image

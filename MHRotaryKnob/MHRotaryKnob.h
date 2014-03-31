@@ -1,7 +1,7 @@
 /*
  * UIControl subclass that acts like a rotary knob.
  *
- * Copyright (c) 2010-2012 Matthijs Hollemans
+ * Copyright (c) 2010-2014 Matthijs Hollemans
  *
  * With contributions from Tim Kemp (slider-style tracking).
  * 
@@ -29,13 +29,12 @@
 /*
  * Possible values for the rotary knob's interactionStyle property.
  */
-typedef enum
+typedef NS_ENUM(NSUInteger, MHRotaryKnobInteractionStyle)
 {
 	MHRotaryKnobInteractionStyleRotating,
 	MHRotaryKnobInteractionStyleSliderHorizontal,  // left -, right +
 	MHRotaryKnobInteractionStyleSliderVertical     // up +, down -
-}
-MHRotaryKnobInteractionStyle;
+};
 
 /*
  * A rotary knob control.
@@ -82,17 +81,17 @@ MHRotaryKnobInteractionStyle;
 /* For positioning the knob image. */
 @property (nonatomic, assign) CGPoint knobImageCenter;
 
-/* The maximum value of the control. Default is 1.0f. */
-@property (nonatomic, assign) float maximumValue;
+/* The maximum value of the control. Default is 1.0. */
+@property (nonatomic, assign) CGFloat maximumValue;
 
-/* The minimum value of the control. Default is 0.0f. */
-@property (nonatomic, assign) float minimumValue;
+/* The minimum value of the control. Default is 0.0. */
+@property (nonatomic, assign) CGFloat minimumValue;
 
-/* The control's current value. Default is 0.5f (center position). */
-@property (nonatomic, assign) float value;
+/* The control's current value. Default is 0.5 (center position). */
+@property (nonatomic, assign) CGFloat value;
 
-/* The control's default value. Default is 0.5f (center position). */
-@property (nonatomic, assign) float defaultValue;
+/* The control's default value. Default is 0.5 (center position). */
+@property (nonatomic, assign) CGFloat defaultValue;
 
 /*
  * Whether the control resets to the default value on a double tap.
@@ -111,13 +110,13 @@ MHRotaryKnobInteractionStyle;
  * How many points of movement result in a one degree rotation in the knob's
  * position. Only used in the horizontal/vertical slider modes. Default is 1.
  */
-@property (nonatomic, assign) float scalingFactor;
+@property (nonatomic, assign) CGFloat scalingFactor;
 
 /*
  * Sets the controls’s current value, allowing you to animate the change
  * visually.
  */
-- (void)setValue:(float)value animated:(BOOL)animated;
+- (void)setValue:(CGFloat)value animated:(BOOL)animated;
 
 /*
  * Assigns a knob image to the specified control states.

@@ -2,6 +2,14 @@
 #import "DemoViewController.h"
 #import "MHRotaryKnob.h"
 
+@interface DemoViewController ()
+
+@property (nonatomic, weak) IBOutlet UISlider *slider;
+@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, weak) IBOutlet MHRotaryKnob *rotaryKnob;
+
+@end
+
 @implementation DemoViewController
 
 - (void)viewDidLoad
@@ -9,18 +17,18 @@
 	[super viewDidLoad];
 
 	self.rotaryKnob.interactionStyle = MHRotaryKnobInteractionStyleRotating;
-	self.rotaryKnob.scalingFactor = 1.5f;
+	self.rotaryKnob.scalingFactor = 1.5;
 	self.rotaryKnob.maximumValue = self.slider.maximumValue;
 	self.rotaryKnob.minimumValue = self.slider.minimumValue;
 	self.rotaryKnob.value = self.slider.value;
 	self.rotaryKnob.defaultValue = self.rotaryKnob.value;
 	self.rotaryKnob.resetsToDefault = YES;
 	self.rotaryKnob.backgroundColor = [UIColor clearColor];
-	self.rotaryKnob.backgroundImage = [UIImage imageNamed:@"Knob Background.png"];
-	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob.png"] forState:UIControlStateNormal];
-	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Highlighted.png"] forState:UIControlStateHighlighted];
-	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Disabled.png"] forState:UIControlStateDisabled];
-	self.rotaryKnob.knobImageCenter = CGPointMake(80.0f, 76.0f);
+	self.rotaryKnob.backgroundImage = [UIImage imageNamed:@"Knob Background"];
+	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob"] forState:UIControlStateNormal];
+	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Highlighted"] forState:UIControlStateHighlighted];
+	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Disabled"] forState:UIControlStateDisabled];
+	self.rotaryKnob.knobImageCenter = CGPointMake(80.0, 76.0);
 	[self.rotaryKnob addTarget:self action:@selector(rotaryKnobDidChange) forControlEvents:UIControlEventValueChanged];
 }
 
