@@ -113,6 +113,17 @@ typedef NS_ENUM(NSUInteger, MHRotaryKnobInteractionStyle)
 @property (nonatomic, assign) CGFloat scalingFactor;
 
 /*
+ * How far the knob can rotate to either side. Default is 135.0 degrees.
+ */
+@property (nonatomic, assign) CGFloat maxAngle;
+
+/*
+ * How far away touches must be from the center of the knob in order to be
+ * recognized. Default is 4 points.
+ */
+@property (nonatomic, assign) CGFloat minRequiredDistanceFromKnobCenter;
+
+/*
  * Sets the controls’s current value, allowing you to animate the change
  * visually.
  */

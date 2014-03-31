@@ -4,12 +4,9 @@
 
 /*
 	For our purposes, it's more convenient if we put 0 degrees at the top, 
-	negative degrees to the left (the minimum is -MaxAngle), and positive
-	to the right (the maximum is +MaxAngle).
+	negative degrees to the left (the minimum is -self.maxAngle), and positive
+	to the right (the maximum is +self.maxAngle).
  */
-
-const CGFloat MaxAngle = 135.0;
-const CGFloat MinDistanceSquared = 16.0;
 
 @implementation MHRotaryKnob
 {
@@ -52,6 +49,8 @@ const CGFloat MinDistanceSquared = 16.0;
 	_continuous = YES;
 	_resetsToDefault = YES;
 	_scalingFactor = 1.0;
+	_maxAngle = 135.0;
+	_minRequiredDistanceFromKnobCenter = 4.0;
 
 	_knobImageView = [[UIImageView alloc] initWithFrame:self.bounds];
 	[self addSubview:_knobImageView];
@@ -63,22 +62,22 @@ const CGFloat MinDistanceSquared = 16.0;
 
 - (CGFloat)clampAngle:(CGFloat)angle
 {
-	if (angle < -MaxAngle)
-		return -MaxAngle;
-	else if (angle > MaxAngle)
-		return MaxAngle;
+	if (angle < -self.maxAngle)
+		return -self.maxAngle;
+	else if (angle > self.maxAngle)
+		return self.maxAngle;
 	else
 		return angle;
 }
 
 - (CGFloat)angleForValue:(CGFloat)value
 {
-	return ((value - self.minimumValue)/(self.maximumValue - self.minimumValue) - 0.5) * (MaxAngle*2.0);
+	return ((value - self.minimumValue)/(self.maximumValue - self.minimumValue) - 0.5) * (self.maxAngle*2.0);
 }
 
 - (CGFloat)valueForAngle:(CGFloat)angle
 {
-	return (angle/(MaxAngle*2.0) + 0.5) * (self.maximumValue - self.minimumValue) + self.minimumValue;
+	return (angle/(self.maxAngle*2.0) + 0.5) * (self.maximumValue - self.minimumValue) + self.minimumValue;
 }
 
 - (CGFloat)angleBetweenCenterAndPoint:(CGPoint)point
@@ -98,6 +97,12 @@ const CGFloat MinDistanceSquared = 16.0;
 	CGFloat dx = point.x - center.x;
 	CGFloat dy = point.y - center.y;
 	return dx*dx + dy*dy;
+}
+
+- (BOOL)shouldIgnoreTouchAtPoint:(CGPoint)point
+{
+	CGFloat minDistanceSquared = self.minRequiredDistanceFromKnobCenter*self.minRequiredDistanceFromKnobCenter;
+	return ([self squaredDistanceToCenter:point] < minDistanceSquared);
 }
 
 - (CGFloat)valueForPosition:(CGPoint)point
@@ -154,7 +159,7 @@ const CGFloat MinDistanceSquared = 16.0;
 	{
 		// If the touch is too close to the center, we can't calculate a decent
 		// angle and the knob becomes too jumpy.
-		if ([self squaredDistanceToCenter:point] < MinDistanceSquared)
+		if ([self shouldIgnoreTouchAtPoint:point])
 			return NO;
 
 		// Calculate starting angle between touch and center of control.
@@ -185,7 +190,7 @@ const CGFloat MinDistanceSquared = 16.0;
 
 	if (self.interactionStyle == MHRotaryKnobInteractionStyleRotating)
 	{
-		if ([self squaredDistanceToCenter:point] < MinDistanceSquared)
+		if ([self shouldIgnoreTouchAtPoint:point])
 			return NO;
 
 		// Calculate how much the angle has changed since the last event.
@@ -198,7 +203,7 @@ const CGFloat MinDistanceSquared = 16.0;
 		if (fabs(delta) > 45.0)
 			return NO;
 
-		self.value += (self.maximumValue - self.minimumValue) * delta / (MaxAngle*2.0);
+		self.value += (self.maximumValue - self.minimumValue) * delta / (self.maxAngle*2.0);
 
 		// Note that the above is equivalent to:
 		//self.value += [self valueForAngle:newAngle] - [self valueForAngle:angle];
