@@ -102,7 +102,16 @@
 - (BOOL)shouldIgnoreTouchAtPoint:(CGPoint)point
 {
 	CGFloat minDistanceSquared = self.minRequiredDistanceFromKnobCenter*self.minRequiredDistanceFromKnobCenter;
-	return ([self squaredDistanceToCenter:point] < minDistanceSquared);
+    CGFloat distanceToCenter = [self squaredDistanceToCenter:point];
+	if (distanceToCenter < minDistanceSquared)
+        return YES;
+    
+    CGFloat maxDistanceSquared = MIN(self.bounds.size.width, self.bounds.size.height) / 2.0f;
+    maxDistanceSquared *= maxDistanceSquared;
+    if( distanceToCenter > maxDistanceSquared ) {
+        return YES;
+    }
+    return NO;
 }
 
 - (CGFloat)valueForPosition:(CGPoint)point
