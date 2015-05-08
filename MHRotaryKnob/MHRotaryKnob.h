@@ -123,6 +123,13 @@ typedef NS_ENUM(NSUInteger, MHRotaryKnobInteractionStyle)
  */
 @property (nonatomic, assign) CGFloat minRequiredDistanceFromKnobCenter;
 
+
+/*
+ * Whether the accepted touch area is contained within the bounding circle of the view.
+ * The default is NO to be compatible with previous versions.
+ */
+@property (nonatomic, assign) BOOL circularTouchZone;
+
 /*
  * Sets the controls’s current value, allowing you to animate the change
  * visually.
