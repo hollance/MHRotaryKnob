@@ -415,4 +415,8 @@
 	return _knobImageView.image;
 }
 
+- (CGFloat)angle {
+    return [self angleForValue:self.value];
+}
+
 @end
