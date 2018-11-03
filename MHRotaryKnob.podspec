@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'MHRotaryKnob/**/*'
   s.resource_bundles = {
-    'DSPaths' => ['Pod/Assets/*.png']
+    'MHRotaryKnob' => ['Pod/Assets/*.png']
   }
 
   s.public_header_files = 'MHRotaryKnob/**/*.h'
