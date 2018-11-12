@@ -30,6 +30,8 @@
 	[self.rotaryKnob setKnobImage:[UIImage imageNamed:@"Knob Disabled"] forState:UIControlStateDisabled];
 	self.rotaryKnob.knobImageCenter = CGPointMake(80.0, 76.0);
 	[self.rotaryKnob addTarget:self action:@selector(rotaryKnobDidChange) forControlEvents:UIControlEventValueChanged];
+    
+    self.circularZoneSwitch.on = self.rotaryKnob.circularTouchZone;
 }
 
 - (IBAction)sliderDidChange
@@ -92,4 +94,8 @@
 	}
 }
 
+- (IBAction)circularZoneChanged:(UISwitch *)sender {
+    self.rotaryKnob.circularTouchZone = !self.rotaryKnob.circularTouchZone;
+    self.circularZoneSwitch.on = self.rotaryKnob.circularTouchZone;
+}
 @end
